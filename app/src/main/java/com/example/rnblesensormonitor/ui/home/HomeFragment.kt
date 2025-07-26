@@ -3,7 +3,6 @@ package com.example.rnblesensormonitor.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rnblesensormonitor.databinding.FragmentHomeBinding
 import com.example.rnblesensormonitor.ui.adapter.DeviceListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import android.util.Log
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -89,8 +89,12 @@ class HomeFragment : Fragment() {
 
     }
 
+    @SuppressLint("MissingPermission")
     private fun setupRecyclerView() {
-        deviceListAdapter = DeviceListAdapter()
+        deviceListAdapter = DeviceListAdapter { device ->
+            Log.d("HomeFragment", "Device clicked: ${device.name}, ${device.address}")
+            homeViewModel.connectToDevice(device)
+        }
         binding.deviceList.apply {
             adapter = deviceListAdapter
             layoutManager = LinearLayoutManager(requireContext())

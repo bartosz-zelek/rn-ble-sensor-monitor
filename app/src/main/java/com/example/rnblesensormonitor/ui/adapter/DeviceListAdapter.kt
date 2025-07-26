@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rnblesensormonitor.databinding.ListItemDeviceBinding
 import com.example.rnblesensormonitor.model.Device
 
-class DeviceListAdapter : ListAdapter<Device, DeviceListAdapter.ViewHolder>(DeviceDiffCallback()) {
+class DeviceListAdapter(private val onItemClicked: (Device) -> Unit) : ListAdapter<Device, DeviceListAdapter.ViewHolder>(DeviceDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListItemDeviceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -18,6 +18,9 @@ class DeviceListAdapter : ListAdapter<Device, DeviceListAdapter.ViewHolder>(Devi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val device = getItem(position)
         holder.bind(device)
+        holder.itemView.setOnClickListener {
+            onItemClicked(device)
+        }
     }
 
     class ViewHolder(private val binding: ListItemDeviceBinding) : RecyclerView.ViewHolder(binding.root) {

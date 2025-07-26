@@ -10,11 +10,13 @@ import com.example.rnblesensormonitor.bluetooth.BleScanner
 import com.example.rnblesensormonitor.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import com.example.rnblesensormonitor.bluetooth.BleConnector
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val bleScanner: BleScanner,
-    private val bleScanCallback: com.example.rnblesensormonitor.bluetooth.BleScanCallback
+    private val bleScanCallback: com.example.rnblesensormonitor.bluetooth.BleScanCallback,
+    private val bleConnector: BleConnector
 ) : ViewModel() {
 
     private val _devices = MutableLiveData<List<Device>>()
@@ -32,6 +34,11 @@ class HomeViewModel @Inject constructor(
     @RequiresPermission(Manifest.permission.BLUETOOTH_SCAN)
     fun stopScanning() {
         bleScanner.stopScanning()
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun connectToDevice(device: Device) {
+        bleConnector.connect(device.address)
     }
 
     @SuppressLint("MissingPermission")
