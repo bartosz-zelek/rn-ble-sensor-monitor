@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var deviceListAdapter: DeviceListAdapter
 
+    @SuppressLint("MissingPermission")
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
         { permissions ->

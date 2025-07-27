@@ -20,7 +20,7 @@ class BleScanner @Inject constructor(
 
     fun startScanning() {
         try {
-            bleScanner.startScan(scanFilters, scanSettings, scanCallback)
+            bleScanner.startScan(null, scanSettings, scanCallback)
         } catch (e: SecurityException) {
             Log.e("BleScanner", "SecurityException in startScanning", e)
         }

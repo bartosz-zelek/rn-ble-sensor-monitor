@@ -2,6 +2,7 @@ package com.example.rnblesensormonitor.bluetooth
 
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import javax.inject.Inject
@@ -35,5 +36,8 @@ class BleScanCallback @Inject constructor() : ScanCallback() {
     override fun onScanFailed(errorCode: Int) {
         super.onScanFailed(errorCode)
         // Handle scan failure
+        // You can log the error or notify the user
+        _scanResults.postValue(emptyList())
+        Log.e("BleScanCallback", "Scan failed with error code: $errorCode")
     }
 }
