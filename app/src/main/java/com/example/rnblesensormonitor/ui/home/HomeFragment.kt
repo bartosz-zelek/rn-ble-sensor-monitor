@@ -57,6 +57,12 @@ class HomeFragment : Fragment() {
         homeViewModel.devices.observe(viewLifecycleOwner) { devices ->
             deviceListAdapter.submitList(devices)
         }
+        // Observe incoming BLE data and display it
+        homeViewModel.receivedData.observe(viewLifecycleOwner) { data ->
+            // Convert bytes to hex string
+            val hexString = data.joinToString(" ") { String.format("%02X", it) }
+            binding.dataText.text = "Data: $hexString"
+        }
     }
 
     private fun checkAndRequestPermissions() {

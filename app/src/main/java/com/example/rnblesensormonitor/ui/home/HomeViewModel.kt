@@ -11,13 +11,18 @@ import com.example.rnblesensormonitor.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.example.rnblesensormonitor.bluetooth.BleConnector
+import com.example.rnblesensormonitor.bluetooth.BleGattCallback
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val bleScanner: BleScanner,
     private val bleScanCallback: com.example.rnblesensormonitor.bluetooth.BleScanCallback,
-    private val bleConnector: BleConnector
+    private val bleConnector: BleConnector,
+    private val bleGattCallback: BleGattCallback // injected callback
 ) : ViewModel() {
+
+    // LiveData for received BLE data
+    val receivedData: LiveData<ByteArray> get() = bleGattCallback.receivedData
 
     private val _devices = MutableLiveData<List<Device>>()
     val devices: LiveData<List<Device>> = _devices
